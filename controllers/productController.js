@@ -51,7 +51,7 @@ const addProduct = async (req, res) => {
 const getProductByFirm = async (req, res) => {
   try {
     const firmId = req.params.firmId;
-    const firm = await Firm.findById(firmId);
+    const firm = await Firm.findById({ _id: firmId });
 
     if (!firm) {
       return resstatus(404).json({ error: "No firm found" });
@@ -70,12 +70,14 @@ const getProductByFirm = async (req, res) => {
 const deleteProductById = async (req, res) => {
   try {
     const productId = req.params.productId;
+    // console.log(productId);
 
-    const deleteProduct = await Product.findByIdAndDelete(productId);
+    const deleteProduct = await Product.findByIdAndDelete({ _id: productId });
 
     if (!deleteProduct) {
       return res.status(404).json({ error: "No product found" });
     }
+    return res.status(200).json({ message: " Product deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
